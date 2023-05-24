@@ -3,6 +3,7 @@ import secrets
 import math
 import time
 
+# Function to generate random prime numbers of 'x' bits
 def generate_rsa_prime_numbers(x):
     while True:
         p = secrets.randbits(x) | (1 << (x-1)) | 1  # Generate a random odd number of x bits
@@ -16,6 +17,7 @@ def generate_rsa_prime_numbers(x):
         if p != q:
             return p, q
 
+# Function to check if a number is prime
 def is_prime(n):
     if n <= 1:
         return False
@@ -28,6 +30,7 @@ def is_prime(n):
             return False
     return True
 
+# Function for modular exponentiation
 def modular_exponentiation(base, exponent, modulus):
     result = 1
 
@@ -39,6 +42,7 @@ def modular_exponentiation(base, exponent, modulus):
 
     return result
 
+# Function to perform the cyclic attack
 def cyclic_attack(ciphertext, n, f4number):
     attempts = 0
     while True:
@@ -48,7 +52,7 @@ def cyclic_attack(ciphertext, n, f4number):
         elapsed_time = current_time - start_time
         attempts_per_second = attempts / elapsed_time
         sys.stdout.write("\r")
-        sys.stdout.write(f"Elapsed Time: {elapsed_time:.2f}s | Attemps: {attempts} | Attempts/s: {attempts_per_second:.2f} | Cipher Text: {ciphertext}")
+        sys.stdout.write(f"Elapsed Time: {elapsed_time:.2f}s | Attempts: {attempts} | Attempts/s: {attempts_per_second:.2f} | Cipher Text: {ciphertext}")
         
         if ciphertext == original_ciphertext:
             sys.stdout.write("\r")
@@ -71,7 +75,7 @@ message = 13245
 original_ciphertext = modular_exponentiation(message, f4number, n)
 
 # Begin cyclic attack
-sys.stdout.write(f"Starting RSA cyclic attack:\nPublic Key:({n},{f4number}) n-bits:{prime_number_bits*2}\nCypher text: {original_ciphertext}\n\n")
+sys.stdout.write(f"Starting RSA cyclic attack:\nPublic Key:({n},{f4number}) n-bits:{prime_number_bits*2}\nCipher text: {original_ciphertext}\n\n")
 start_time = time.time()
 cyclic_attack_result = cyclic_attack(original_ciphertext, n, f4number)
 end_time = time.time()
